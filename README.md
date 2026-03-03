@@ -1,34 +1,37 @@
-# Vezlock
+# 🛡️ Vezlock
 
-Vezlock is an enterprise-grade, security-focused password manager designed with a **Zero-Knowledge** security model and a modern monorepo architecture. 
+Vezlock is an **enterprise-grade, security-first password manager** built on a solid foundation of **Zero-Knowledge** principles. It provides a secure, unified ecosystem for managing sensitive credentials across web and mobile platforms, ensuring that your data remains yours and yours alone.
 
-## 🛡️ Zero-Knowledge Security Model
+---
 
-Vezlock follows a strict Zero-Knowledge protocol. The server **never** sees or stores your Master Password or your raw, unencrypted data.
+## 🔒 Zero-Knowledge Security Model
 
-### Key Derivation & Authentication
-When you log in, two distinct keys are derived from your Master Password on the client side:
-1.  **Auth Key**: Sent to the server to verify your identity. The server stores a Bcrypt hash of this key (`user.authHash`).
-2.  **Encryption Key**: Never leaves your device. It is used to encrypt and decrypt your vault entries locally.
+Vezlock is designed with the philosophy that **privacy is a right, not a luxury**. Our security architecture ensures that the server acts only as an encrypted storage provider, never having access to your actual secrets.
 
-### Data Storage
--   **Vault Entries**: Stored as AES-encrypted JSON blobs (`cipher`). 
--   **Salts**: The server stores a unique `vaultSalt` for each user, which is used to securely derive the Encryption Key on the client.
+### 🔑 Key Derivation & Client-Side Encryption
+When you interact with Vezlock, all cryptographic operations occur exclusively on your device:
+
+1.  **Identity Verification (Auth Key)**: A persistent key derived from your Master Password is used for authentication. The server only stores a non-reversible Bcrypt hash of this key.
+2.  **End-to-End Encryption (Vault Key)**: A separate, unique encryption key is derived locally and never transmitted. This key encrypts your data before it ever leaves your browser or phone.
+
+### 🛡️ Data Integrity
+-   **AES-256 Encryption**: Vault entries are stored as opaque, encrypted JSON blobs.
+-   **Unique Salts**: Every user has a unique server-side salt, preventing bulk attacks and ensuring high entropy for key derivation.
 
 ---
 
 ## 🏗️ System Architecture
 
-The project uses a monorepo structure (managed by `pnpm workspaces`) to unify the entire ecosystem.
+Vezlock uses a modern **monorepo architecture** managed by `pnpm`, allowing for seamless synchronization between the backend, web, and mobile clients.
 
 ```mermaid
 graph TD
     User((User))
-    Web[Next.js Web App]
-    Mobile[Flutter Mobile App]
-    Backend[Express.js API]
-    DB[(PostgreSQL + Prisma)]
-    Shared[packages/shared: Types & Schemas]
+    Web["🌐 apps/web (Next.js)"]
+    Mobile["📱 apps/mobile (Flutter)"]
+    Backend["⚙️ apps/backend (Express)"]
+    DB[("🗄️ PostgreSQL + Prisma")]
+    Shared["📦 packages/shared (Types/Logic)"]
 
     User --> Web
     User --> Mobile
@@ -40,55 +43,64 @@ graph TD
     Shared -.-> Backend
 ```
 
-### Components
--   **`apps/backend`**: Express.js API handling authentication, synchronization, and user management.
--   **`apps/web`**: Next.js frontend for desktop and browser access.
--   **`apps/mobile`**: Flutter application for cross-platform mobile access.
--   **`packages/shared`**: Shared TypeScript types, Zod schemas, and utility functions used across all TypeScript packages.
+### Core Components
+-   **`apps/backend`**: A robust Express.js API serving as the central synchronization hub. Managed with Prisma ORM for type-safe database interactions.
+-   **`apps/web`**: A high-performance Next.js application designed for a sleek desktop experience.
+-   **`apps/mobile`**: A cross-platform Flutter application providing secure access on the go (Development in progress).
+-   **`packages/shared`**: The "source of truth"—shared TypeScript types, validation schemas (Zod), and utility functions used throughout the ecosystem.
 
 ---
 
-## 🧪 Technology Stack
+## 🛠️ Technology Stack
 
--   **Backend**: Express.js, Prisma ORM, Node.js
--   **Frontend**: Next.js, React, TailwindCSS (planned)
--   **Mobile**: Flutter, Dart
--   **Database**: PostgreSQL
--   **Language**: TypeScript (End-to-End for JS/TS apps)
--   **Package Manager**: pnpm
-
----
-
-## 🔄 Core Workflows
-
-### Vault Creation/Update
-1.  User enters data (URL, Username, Password).
-2.  The client encrypts the sensitive fields using the locally cached **Encryption Key**.
-3.  The client sends the encrypted **cipher** and searchable metadata (e.g., title) to the backend.
-4.  The server stores the opaque blob.
-
-### Vault Retrieval
-1.  User authenticates and fetches their encrypted records.
-2.  The client decrypts the **cipher** strings on-the-fly using the **Encryption Key**.
+| Layer | Technologies |
+| :--- | :--- |
+| **Backend** | Node.js, Express.js, Prisma ORM, Bcrypt |
+| **Frontend** | React, Next.js, TypeScript |
+| **Mobile** | Flutter, Dart |
+| **Database** | PostgreSQL |
+| **Validation** | Zod |
+| **Monorepo** | pnpm |
 
 ---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
--   Node.js (>= 18)
--   pnpm (>= 8)
--   Docker (for Database)
+-   **Node.js** (>= 18)
+-   **pnpm** (>= 9)
+-   **PostgreSQL** (Local instance or Docker)
 
 ### Installation
-```bash
-git clone git@github.com:Asyqorrr/vezlock.git
-cd envlock
-pnpm install
-```
+1.  **Clone the repository**:
+    ```bash
+    git clone https://github.com/Asyqorrr/vezlock.git
+    cd vezlock
+    ```
+
+2.  **Install dependencies**:
+    ```bash
+    pnpm install
+    ```
+
+3.  **Environment Setup**:
+    Configure your `.env` files in `apps/backend` (refer to `.env.example` if available).
 
 ### Development
+Launch the entire ecosystem in development mode with a single command:
 ```bash
-# Start all applications in parallel
 pnpm dev
 ```
+
+---
+
+## 🛤️ Roadmap & Upcoming Features
+- [ ] **Full TailwindCSS Integration**: Modernizing all UI components for a premium feel.
+- [ ] **Mobile App Expansion**: Full parity between web and mobile vault management.
+- [ ] **Browser Extension**: Quick access to credentials directly from your browser toolbar.
+- [ ] **Team Sharing**: Secure, Zero-Knowledge vault sharing for organizations.
+
+---
+
+## 📄 License
+Vezlock is released under the [MIT License](LICENSE).
