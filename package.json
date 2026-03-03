@@ -1,0 +1,14 @@
+{
+  "name": "vezlock",
+  "private": true,
+  "description": "Enterprise-grade, security-focused password manager",
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "pnpm@9.0.0",
+  "scripts": {
+    "dev": "pnpm -r --parallel dev",
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint"
+  }
+}
