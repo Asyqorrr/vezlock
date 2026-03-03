@@ -92,15 +92,6 @@ Launch the entire ecosystem in development mode with a single command:
 pnpm dev
 ```
 
----
-
-## 🛤️ Roadmap & Upcoming Features
-- [ ] **Full TailwindCSS Integration**: Modernizing all UI components for a premium feel.
-- [ ] **Mobile App Expansion**: Full parity between web and mobile vault management.
-- [ ] **Browser Extension**: Quick access to credentials directly from your browser toolbar.
-- [ ] **Team Sharing**: Secure, Zero-Knowledge vault sharing for organizations.
-
----
 
 ## 📄 License
 Vezlock is released under the [MIT License](LICENSE).
